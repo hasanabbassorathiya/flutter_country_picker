@@ -1,8 +1,7 @@
+import 'package:country_picker/country_picker.dart';
+import 'package:country_picker/src/extensions.dart';
 import 'package:flutter/material.dart';
 
-import 'country.dart';
-import 'country_list_theme_data.dart';
-import 'country_localizations.dart';
 import 'country_service.dart';
 import 'res/country_codes.dart';
 import 'utils.dart';
@@ -179,7 +178,9 @@ class _CountryListViewState extends State<CountryListView> {
           Navigator.pop(context);
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          padding: const EdgeInsets.symmetric(
+            vertical: 7.0,
+          ),
           child: Row(
             children: <Widget>[
               Row(
@@ -201,12 +202,17 @@ class _CountryListViewState extends State<CountryListView> {
                 ],
               ),
               Expanded(
-                child: Text(
-                  CountryLocalizations.of(context)
-                          ?.countryName(countryCode: country.countryCode)
-                          ?.replaceAll(RegExp(r"\s+"), " ") ??
-                      country.name,
-                  style: _textStyle,
+                child: Padding(
+                  padding: EdgeInsets.all(
+                    7,
+                  ),
+                  child: Text(
+                    CountryLocalizations.of(context)
+                            ?.countryName(countryCode: country.countryCode)
+                            ?.replaceAll(RegExp(r"\s+"), " ") ??
+                        country.name,
+                    style: _textStyle,
+                  ),
                 ),
               )
             ],
@@ -218,13 +224,20 @@ class _CountryListViewState extends State<CountryListView> {
 
   Widget _flagWidget(Country country) {
     final bool isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    if (country.iswWorldWide) {
+      return Image.asset(
+        'worldWide.png'.imagePath,
+        package: 'country_picker',
+        width: 27,
+      );
+    }
+
     return SizedBox(
       // the conditional 50 prevents irregularities caused by the flags in RTL mode
       width: isRtl ? 50 : null,
       child: Text(
-        country.iswWorldWide
-            ? '\uD83C\uDF0D'
-            : Utils.countryCodeToEmoji(country.countryCode),
+        Utils.countryCodeToEmoji(country.countryCode),
         style: TextStyle(
           fontSize: widget.countryListTheme?.flagSize ?? 25,
         ),
