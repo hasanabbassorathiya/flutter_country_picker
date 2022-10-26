@@ -38,6 +38,7 @@ class CountryListView extends StatefulWidget {
 
   /// An optional argument for showing "World Wide" option at the beginning of the list
   final bool showWorldWide;
+  final double padding;
 
   const CountryListView({
     Key? key,
@@ -49,6 +50,7 @@ class CountryListView extends StatefulWidget {
     this.countryListTheme,
     this.searchAutofocus = false,
     this.showWorldWide = false,
+    this.padding =7.0,
   })  : assert(
           exclude == null || countryFilter == null,
           'Cannot provide both exclude and countryFilter',
@@ -179,7 +181,7 @@ class _CountryListViewState extends State<CountryListView> {
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 7.0,
+            vertical: widget.padding,
           ),
           child: Row(
             children: <Widget>[
@@ -204,7 +206,7 @@ class _CountryListViewState extends State<CountryListView> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(
-                    7,
+                     widget.padding,
                   ),
                   child: Text(
                     CountryLocalizations.of(context)
